@@ -1,0 +1,76 @@
+md-whiteframe(tag="section" md-elevation="6" id='menu-sidebar')
+
+  div.menu-head
+    router-link(class="menu-head__mainpage-link" to="/" tag="h2") Administrator 
+      md-icon verified_user
+    md-button(class='md-icon-button md-fab md-mini menu-head__exit-btn' href='/logout')
+      md-icon close
+      md-tooltip(md-delay="500") Exit
+
+  ul.menu-list
+    li.menu-list__item
+      router-link(to='/homepage' class="menu-list__item__link" exact)
+        md-ink-ripple
+        span Homepage
+    li.menu-list__item
+      router-link(to='/sponsors' class="menu-list__item__link")
+        md-ink-ripple
+        span Sponsors
+      a(class='add-btn' @click="$emit('fileBoxBtnClick')")
+        md-icon playlist_add
+        md-tooltip(md-delay="500") Add sponsor
+    li.menu-list__item
+      router-link(to='/news' class="menu-list__item__link" exact)
+        md-ink-ripple
+        span News
+      router-link(to='/news/create' class='add-btn' exact)
+        md-icon playlist_add
+        md-tooltip(md-delay="500") Add news
+    li.menu-list__item
+      router-link(to='/articles' class="menu-list__item__link" exact)
+        md-ink-ripple
+        span Articles
+      router-link(to='/articles/create' class='add-btn' exact)
+        md-icon playlist_add
+        md-tooltip(md-delay="500") Add article
+    li.menu-list__item
+      router-link(to='/sections' class="menu-list__item__link" exact)
+        md-ink-ripple
+        span Sections
+      router-link(to='/sections/create' class='add-btn' exact)
+        md-icon playlist_add
+        md-tooltip(md-delay="500") Add section
+
+      ul.section-list
+        md-icon(class="subdirectory_arrow") subdirectory_arrow_left
+        transition-group(name="sections")
+          li(v-for="section in sections"
+              class="section-list__item"
+              :class="{ 'visible': +section.visible }"
+              key="section.id")
+
+            md-button(class="md-icon-button md-dense hide-btn"
+                      @click.native="handleHide(section._id)")
+              md-icon
+                | {{ +section.visible ? 'visibility' : 'visibility_off' }}
+              md-tooltip(md-delay="500") Hide section
+
+            md-button(:href="`#/sections/${section._id}/edit`"
+                      class="md-raised md-icon-button md-dense edit-btn")
+              md-icon(class="md-light md-20") edit
+              md-tooltip(md-delay="500") Edit
+
+            md-button(class="md-raised md-icon-button md-dense del-btn"
+                      @click.native="handleDelete(section._id)")
+
+              md-icon delete_forever
+              md-tooltip(md-delay="500") Delete
+
+            router-link(:to="{ path: `/sections/${section._id}` }"
+                        class="section-list__item__link"
+                        exact)
+              | {{ section.title }}
+
+  prompt(ref="prompt"
+         :callback="promptCallback"
+         text="Are you sure to delete this section?")

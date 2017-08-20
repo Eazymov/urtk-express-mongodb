@@ -1,0 +1,175 @@
+$transition: .2s
+$blue: #1976d2
+$lightBlue: #2196f3
+$green: #4caf50
+$darkGreen: #388e3c
+$red: #f44336
+$darkRed: #d32f2f
+$shadowColor: rgba(#000, .3)
+$hoverShadowColor: rgba(#000, .2)
+
+#App
+  #menu-sidebar
+    border: 1px solid $lightBlue
+    left: calc(50vw - 650px)
+    border-top-width: 0px
+    background: #fafafa
+    position: absolute
+    overflow-x: hidden
+    overflow-y: auto
+    height: 100vh
+    width: 300px
+    top: 0
+
+    .menu-head
+      border-top: 10px solid $blue
+      padding: 35px 0 35px 50px
+      background: $lightBlue
+      position: relative
+      display: block
+      height: 109px
+      width: 100%
+      &__mainpage-link
+        display: inline-flex
+        position: relative
+        font-size: 1.5rem
+        font-weight: 300
+        cursor: pointer
+        color: #fff
+      &__exit-btn
+        background-color: $blue
+        transition: $transition
+        position: absolute
+        bottom: -20px
+        right: 15px
+        z-index: 1
+        &:hover,
+        &:focus
+          background-color: $red
+          transform: scale(1.2)
+
+    .menu-list
+      list-style: none
+      width: 100%
+      &__item
+        border-bottom: 1px solid #ddd
+        background-color: #fff
+        position: relative
+        margin: 0 auto
+        width: 100%
+        &__link
+          background-color: transparent
+          padding: 15px 15px 15px 48px
+          transition: $transition
+          font-family: Helvetica
+          text-decoration: none
+          font-size: 1.125rem
+          position: relative
+          overflow: hidden
+          font-weight: 400
+          display: block
+          color: $blue
+          height: 48px
+          &.active span
+            color: $blue
+          span
+            color: rgba(#000, .87)
+            &:hover
+              text-decoration: underline
+
+        .add-btn
+          border: 1px solid transparent
+          transition: $transition
+          color: rgba(#000, .87)
+          text-decoration: none
+          border-radius: 2px
+          position: absolute
+          cursor: pointer
+          height: 30px
+          padding: 2px
+          opacity: .54
+          width: 30px
+          left: 9px
+          top: 9px
+          &:hover,
+          &:focus,
+          &.active
+            border-color: #d3d3d3
+            color: $blue
+            opacity: 1
+
+        .section-list
+          position: relative
+          border-top: none
+          list-style: none
+          margin: 0 auto
+          .subdirectory_arrow
+            transform: rotateZ(-90deg)
+            color: rgba(#000, .54)
+            pointer-events: none
+            position: absolute
+            left: 135px
+            top: -30px
+          &__item
+            background-color: #fff
+            color: rgba(#000, .54)
+            position: relative
+            display: block
+            &.visible
+              color: rgba(#000, .87)
+              .hide-btn
+                opacity: 1
+
+            .hide-btn
+              color: rgba(#000, .54)
+              position: absolute
+              opacity: .65
+              left: 28px
+              top: 4px
+              &:hover
+                color: rgba(#000, .87)
+
+            &__link
+              padding: 10px 0 10px 70px
+              text-overflow: ellipsis
+              transition: $transition
+              white-space: nowrap
+              font-weight: 400
+              font-size: 1rem
+              color: inherit
+              display: block
+              height: 39px
+              width: 180px
+              &:hover,
+              &:focus,
+              &.active
+                text-decoration: underline
+                color: $blue
+
+            .edit-btn,
+            .del-btn
+              position: absolute
+              color: #fff
+              top: 3px
+            .edit-btn
+              background-color: $green
+              right: 54px
+            .del-btn
+              background-color: $red
+              right: 14px
+
+  .sections-enter-active
+    transition: .2s ease-out
+
+  .sections-leave-active
+    transition: .2s ease-in
+
+  .sections-leave,
+  .sections-enter-to
+    height: 39px
+
+  .sections-enter,
+  .sections-leave-to
+    margin-left: 300px
+    opacity: 0
+    height: 0

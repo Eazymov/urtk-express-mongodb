@@ -1,0 +1,36 @@
+#content
+  div.sponsors-block
+
+    div.sponsors-block__head
+      span.md-title Sponsors
+      md-button(class="md-icon-button md-fab md-mini add-btn"
+                @click.native="$emit('fileBoxBtnClick')")
+        md-icon add
+        md-tooltip(md-delay="200") Add sponsor
+
+    div.sponsors-block__list
+      md-card(class="sponsors-block__list__item md-with-hover"
+              v-for="sponsor in sponsors"
+              :key="sponsor.logo")
+        md-button(class="md-icon-button md-raised md-dense del-btn"
+                  @click.native="deleteSponsor(sponsor.logo)")
+          md-icon delete_forever
+
+        div.ripple-wrapper
+          md-ink-ripple
+          div.inner
+            img(:src="`../public/uploads/${sponsor.logo}`"
+                :alt="sponsor.title"
+                class="sponsors-block__list__item__logo")
+            a(:href="sponsor.link ? sponsor.link : null"
+              :class="{ 'disabled': !sponsor.link }"
+              target="_blank"
+              class="sponsors-block__list__item__title"
+              :title="sponsor.link ? 'Follow the link' : 'Link is empty'")
+              | {{ sponsor.title }}
+
+    loader(v-show="loading" class="sponsors-block__loader")
+
+  prompt(ref="prompt"
+         :callback="promptCallback"
+         text="Are you sure to delete this element?")

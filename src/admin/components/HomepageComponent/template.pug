@@ -1,0 +1,31 @@
+#content
+  md-whiteframe(md-elevation="2" class="homepage-editor")
+    form(@submit.prevent="sendData")
+      span(class="md-title") Stage
+      input(class="homepage-editor__stage"
+            @input="stageIsValid = true"
+            v-model="stage"
+            :class="{ 'nonValid': !stageIsValid }")
+      span(class="highlighter")
+
+      span(class="md-title") Main panel text
+      div.homepage-editor__command-panel
+        button(type="button"
+               v-for="command in Editor.commands"
+               class="homepage-editor__command-panel__btn"
+               @click="command.action"
+               :class="command.name")
+          md-tooltip(md-delay="500") {{ command.name }}
+      div(ref="panelTextEdit"
+          contentEditable="true"
+          class="homepage-editor__panel-text"
+          v-html="panelText"
+          @keydown="panelTextIsValid = true"
+          :class="{ 'nonValid': !panelTextIsValid }")
+
+      material-button(class="homepage-editor__submit"
+                      :type="'submit'"
+                      :text="'Save'"
+                      :disabled="loading")
+
+      loader(class="homepage-editor__loader" v-show="loading")
