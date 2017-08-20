@@ -6,12 +6,12 @@ mongoose.connect(process.env.DATABASE)
 mongoose.Promise = global.Promise
 mongoose.connection.on('error', error => console.error(error.message))
 
-require('./models/user.js')
-require('./models/homepage.js')
-require('./models/sponsor.js')
-require('./models/news.js')
-require('./models/article.js')
-require('./models/category.js')
+require('./models/user')
+require('./models/homepage')
+require('./models/sponsor')
+require('./models/news')
+require('./models/article')
+require('./models/section')
 
 const app = require('./app')
 

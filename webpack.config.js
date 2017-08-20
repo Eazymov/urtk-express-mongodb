@@ -1,11 +1,15 @@
 const webpack = require('webpack')
 const path = require('path');
 
+function resolve (dir) {
+  return path.join(__dirname, dir);
+}
+
 module.exports = {
   entry: {
     mainpage: './src/mainpage/main.js',
-    login: './src/login/main.js',
-    admin: './src/admin/main.js'
+    login: './src/login/main.ts',
+    admin: './src/admin/main.ts'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -18,6 +22,21 @@ module.exports = {
     publicPath: '/assets/',
     contentBase: 'dist/',
     historyApiFallback: true
+  },
+  resolve: {
+    extensions: ['.js', '.vue', '.ts', '.pug', '.sass'],
+    alias: {
+      '@': resolve('src'),
+      'api': resolve('src/api'),
+      'assets': resolve('src/assets'),
+      'shared': resolve('src/shared'),
+      'login': resolve('src/login'),
+      'admin': resolve('src/admin'),
+      'controllers': resolve('controllers'),
+      'models': resolve('models'),
+      'handlers': resolve('handlers'),
+      'routes': resolve('routes')
+    }
   },
   module: {
     loaders: [
@@ -32,8 +51,18 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader'
       }, {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [/\.vue$/],
+        }
+      }, {
         test: /\.(png|jpg|gif|svg)$/,
         loader: "file-loader"
+      }, {
+        test: /\.pug$/,
+        loader: 'pug-html-loader'
       }, {
         test: /\.vue$/,
         loader: 'vue-loader',
