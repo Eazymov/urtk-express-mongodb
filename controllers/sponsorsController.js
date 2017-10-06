@@ -14,18 +14,18 @@ exports.sponsors = (req, res) => {
     .select(select)
     .exec((err, sponsors) => {
       if (err) {
-        res.send({ err })
+        res.json({ err })
         return;
       }
 
-      res.send({ sponsors });
+      res.json({ sponsors });
     })
 }
 
 exports.createSponsor = (req, res) => {
   upload(req, res, err => {
     if (err) {
-      res.send({ err });
+      res.json({ err });
       return;
     }
 
@@ -38,11 +38,11 @@ exports.createSponsor = (req, res) => {
 
     newSponsor.save((err, sponsor) => {
       if (err) {
-        res.send({ err });
+        res.json({ err });
         return;
       }
 
-      res.send({ sponsor })
+      res.json({ sponsor })
     })
   })
 }
@@ -55,7 +55,7 @@ exports.deleteSponsor = (req, res) => {
     .remove()
     .exec(err => {
       if (err) {
-        res.send({ err });
+        res.json({ err });
         return;
       }
 
@@ -63,7 +63,7 @@ exports.deleteSponsor = (req, res) => {
 
       fs.unlink(filepath, err => {
         if (err) {
-          res.send({ err });
+          res.json({ err });
           return;
         }
       });

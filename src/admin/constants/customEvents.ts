@@ -1,0 +1,7 @@
+const NOTIFICATION = 'NOTIFICATION';
+const WARNING = 'WARNING';
+
+export {
+  NOTIFICATION,
+  WARNING,
+};

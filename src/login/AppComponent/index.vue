@@ -49,11 +49,11 @@
     }
 
     private handleAjaxLoad (response: AxiosResponse): void {
-      const data: boolean = response.data;
+      const success: boolean = response.data;
 
       this.loading = false;
 
-      if (data) {
+      if (success) {
         window.location.href = '/admin/';
       } else {
         this.denied = true;

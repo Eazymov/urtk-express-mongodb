@@ -1,7 +1,7 @@
 import Vue from 'vue';
-import App from './AppComponent';
+import App from 'Login/AppComponent/index.vue';
 
-import 'assets/vue-material';
+import 'Assets/vue-material';
 
 new Vue({
   el: '#App',

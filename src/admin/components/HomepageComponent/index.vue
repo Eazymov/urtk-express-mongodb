@@ -2,7 +2,8 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import Api from 'api';
+  import { Action } from 'vuex-class';
+  import Api from 'Api';
 
   import Editor from './simpleEditor';
 
@@ -17,6 +18,9 @@
     public panelTextIsValid: boolean = true;
     public Editor: {} = Editor;
 
+    @Action notify: (text: string) => void;
+    @Action showWarning: (text: string) => void;
+
     public get panelTextEdit () {
       return this.$refs.panelTextEdit;
     }
@@ -28,12 +32,7 @@
         .catch(console.error);
     }
 
-    handleDataLoad (response: ApiResponse): void {
-      const { homepage, err } = response.data;
-
-      if (err)
-        throw err;
-
+    handleDataLoad (homepage: Homepage): void {
       const { stage, panelText } = homepage;
 
       this.stage = stage;
@@ -64,29 +63,24 @@
 
       Api.Homepage
         .update(updates)
-        .then(this.handleAjaxLoad)
-        .catch(this.handleAjaxError);
+        .then(this.handleUpdate)
+        .catch(this.handleUpdateReject);
     }
 
-    handleAjaxLoad (response: ApiResponse): void {
-      const { err } = response.data;
-
+    handleUpdate (): void {
       this.loading = false;
 
-      if (err)
-        throw err;
-
-      this.$emit('notify', 'Data has been successfully updated');
+      this.notify('Data has been successfully updated');
     }
 
-    handleAjaxError (err: Error): void {
+    handleUpdateReject (err: Error): void {
       const errText = err.message;
 
       console.error(errText)
 
       this.loading = false;
 
-      this.$emit('warning', errText);
+      this.showWarning(errText);
     }
 
     created () {

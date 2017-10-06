@@ -28,7 +28,7 @@
 
 <style lang="sass">
   .float-button
-    background-image: url('~assets/icons/reply-white-36dp.png')
+    background-image: url('~Assets/icons/reply-white-36dp.png')
     box-shadow: 0 0 6px rgba(#000, 1)
     background-position: 22px 2px
     background-repeat: no-repeat

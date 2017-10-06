@@ -8,16 +8,23 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
 
-  @Component({
-    props: {
-      text: {
-        type: String,
-        default: 'There was an error while saving data'
-      }
-    }
-  })
+  import { WARNING } from 'Admin/constants/customEvents';
 
-  class WarningBox extends Vue { }
+  @Component
+  class WarningBox extends Vue {
+    public text: string = 'Warning';
+
+    show (event: CustomEvent) {
+      const warning = this.$refs.warning;
+      this.text = event.detail;
+
+      (<any>warning).open();
+    }
+    
+    mounted () {
+      document.addEventListener(WARNING, this.show);
+    }
+  }
 
   export default WarningBox;
 </script>

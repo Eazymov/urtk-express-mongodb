@@ -4,7 +4,7 @@ const Section = mongoose.model('Section')
 exports.sections = async (req, res) => {
   const sections = await Section.find();
 
-  res.json(sections);
+  res.json({ sections });
 }
 
 exports.createSection = (req, res) => {
@@ -22,7 +22,7 @@ exports.createSection = (req, res) => {
     delete response['content'];
     delete response['__v'];
 
-    res.send(section)
+    res.json({ section })
   })
 }
 

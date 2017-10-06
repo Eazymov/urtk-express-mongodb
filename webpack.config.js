@@ -27,15 +27,16 @@ module.exports = {
     extensions: ['.js', '.vue', '.ts', '.pug', '.sass'],
     alias: {
       '@': resolve('src'),
-      'api': resolve('src/api'),
-      'assets': resolve('src/assets'),
-      'shared': resolve('src/shared'),
-      'login': resolve('src/login'),
-      'admin': resolve('src/admin'),
-      'controllers': resolve('controllers'),
-      'models': resolve('models'),
-      'handlers': resolve('handlers'),
-      'routes': resolve('routes')
+      'Api': resolve('src/api'),
+      'Assets': resolve('src/assets'),
+      'Shared': resolve('src/shared'),
+      'Utils': resolve('src/utils'),
+      'Login': resolve('src/login'),
+      'Admin': resolve('src/admin'),
+      'Controllers': resolve('controllers'),
+      'Models': resolve('models'),
+      'Handlers': resolve('handlers'),
+      'Routes': resolve('routes')
     }
   },
   module: {
@@ -78,7 +79,7 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
   /*  new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,

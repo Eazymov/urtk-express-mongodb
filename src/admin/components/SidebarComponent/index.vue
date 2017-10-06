@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import Api from 'api';
+  import Api from 'Api';
 
   @Component
   class Sidebar extends Vue {
@@ -15,11 +15,7 @@
         .catch(console.error);
     }
 
-    handleDataLoad (response: ApiResponse): void {
-      const data: Section[] = response.data;
-
-      if (!data.length) return;
-
+    handleDataLoad (data: Section[]): void {
       this.sections = data
     }
 

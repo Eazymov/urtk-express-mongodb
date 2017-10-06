@@ -2,7 +2,9 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import Axios, { AxiosResponse } from 'axios';
+  import Axios from 'axios';
+
+  import Api from 'Api';
 
   @Component
   class Sponsors extends Vue {
@@ -11,21 +13,14 @@
     public promptCallback: () => void = () => {};
 
     getData (): void {
-      Axios
-        .get('/api/sponsors')
+      Api.Sponsor
+        .get()
         .then(this.handleDataLoad)
         .catch(console.error);
     }
 
-    handleDataLoad (response: AxiosResponse): void {
+    handleDataLoad (sponsors: Sponsor[]): void {
       this.loading = false;
-
-      const { sponsors, err } = response.data;
-
-      if (err)
-        throw err;
-
-      if (!sponsors.length) return;
 
       this.sponsors = sponsors;
     }

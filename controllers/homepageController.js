@@ -7,23 +7,23 @@ exports.homepage = (req, res) => {
     .select('-_id stage panelText')
     .exec((err, homepage) => {
       if (err) {
-        res.send({ err })
+        res.json({ err })
         return;
       }
 
-      res.send({ homepage });
+      res.json({ homepage });
     })
 }
 
 exports.updateHomepage = (req, res) => {
   const updates = req.body;
 
-  Homepage.findOneAndUpdate({}, updates, err => {
+  Homepage.findOneAndUpdate({}, updates, (err) => {
     if (err) {
-      res.send({ err });
+      res.json({ err });
       return;
     }
 
-    res.end();
+    res.json({ success: true });
   })
 }

@@ -1,39 +1,31 @@
 <template lang="pug">
   #App
-    warning-box(ref="warningBox" :text="warningText")
+    warning-box
 
-    notify-box(:text="notifyText" :active="notifyBoxIsActive")
+    notify-box
 
-    file-box(ref="fileBox"
-             @warning="showWarning"
-             @notify="showNotify")
+    file-box(ref="fileBox")
 
     menu-sidebar(@fileBoxBtnClick="showFileBox")
 
-    router-view(@notify="showNotify"
-                @warning="showWarning"
-                @fileBoxBtnClick="showFileBox")
+    router-view(@fileBoxBtnClick="showFileBox")
 </template>
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
 
-  import FileBox from 'admin/components/FileBoxComponent';
-  import NotifyBox from 'admin/components/NotifyBoxComponent';
-  import MenuSidebar from 'admin/components/SidebarComponent';
+  import FileBox from 'Admin/components/FileBoxComponent/index.vue';
+  import MenuSidebar from 'Admin/components/SidebarComponent/index.vue';
 
   @Component({
     components: {
       FileBox,
-      NotifyBox,
       MenuSidebar
     }
   })
 
   class App extends Vue {
-    public notifyBoxIsActive: boolean = false;
     public warningText: string = 'Предупреждение';
-    public notifyText: string = 'Сохранено';
 
     /* get fileBox () {
       return this.$refs.fileBox.$children[0];
@@ -45,21 +37,6 @@
 
     showFileBox (): void {
       // this.fileBox.open()
-    }
-
-    showWarning (text: string): void {
-      this.warningText = text;
-
-      // this.warning.open()
-    }
-
-    showNotify (text: string): void {
-      this.notifyText = text;
-      this.notifyBoxIsActive = true;
-
-      setTimeout(() => {
-        this.notifyBoxIsActive = false;
-      }, 3000)
     }
   }
 
