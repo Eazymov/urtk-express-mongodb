@@ -1,22 +1,20 @@
 import 'webpack-hot-middleware/client';
-import 'babel-polyfill';
-import 'fetch-polyfill';
 
 import Vue from 'vue';
 import store from 'Admin/store';
 import router from 'Admin/router';
 
-import App from './AppComponent/index.vue';
+import App from './App/index.vue';
 
-import MaterialButton from 'Shared/MaterialButtonComponent/index.vue';
-import NotFound from 'Shared/NotFoundComponent/index.vue';
+import MaterialButton from 'Shared/MaterialButton/index.vue';
+import NotFound from 'Shared/NotFound/index.vue';
 
-import Prompt from 'Admin/components/other/PromptBoxComponent/index.vue';
-import FilterBox from 'Admin/components/other/FilterBoxComponent/index.vue';
-import NotifyBox from 'Admin/components/other/NotifyBoxComponent/index.vue';
-import WarningBox from 'Admin/components/other/WarningBoxComponent/index.vue';
-import FloatSubmit from 'Admin/components/other/FloatSubmitButton/index.vue';
-import GoogleLoader from 'Admin/components/other/GoogleLoaderComponent/index.vue';
+import Prompt from 'Admin/components/other/PromptBox/index.vue';
+import FilterBox from 'Admin/components/other/FilterBox/index.vue';
+import NotifyBox from 'Admin/components/other/NotifyBox/index.vue';
+import WarningBox from 'Admin/components/other/WarningBox/index.vue';
+import FloatSubmit from 'Admin/components/other/FloatSubmit/index.vue';
+import GoogleLoader from 'Admin/components/other/GoogleLoader/index.vue';
 
 import 'Assets/vue-material';
 

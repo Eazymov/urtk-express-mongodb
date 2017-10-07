@@ -2,6 +2,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
+  import { Action } from 'vuex-class';
   import Api from 'Api';
 
   @Component
@@ -9,17 +10,19 @@
     public sections: Array<Section> = [];
     public promptCallback: () => void = () => {};
 
-    getData (): void {
+    @Action public openFileBox: () => void;
+
+    private getData (): void {
       Api.Section.get()
         .then(this.handleDataLoad)
         .catch(console.error);
     }
 
-    handleDataLoad (data: Section[]): void {
+    private handleDataLoad (data: Section[]): void {
       this.sections = data
     }
 
-    handleDelete (_id: string): void {
+    public handleDelete (_id: string): void {
       this.promptCallback = () => {
         this.$root.$emit('section-delete', _id);
 
@@ -31,7 +34,7 @@
       (<any>this.$refs.prompt).$children[0].open();
     }
 
-    deleteSection (_id: string): void {
+    private deleteSection (_id: string): void {
       const sections = this.sections;
       const index = sections.findIndex(el => el._id === _id);
 
@@ -40,11 +43,11 @@
       sections.splice(index, 1);
     }
 
-    addSection (obj: Section): void {
+    private addSection (obj: Section): void {
       this.sections.push(obj);
     }
 
-    handleHide (_id: string): void {
+    public handleHide (_id: string): void {
       const section = this.sections.find(el => el._id === _id);
 
       if (!section) return;
@@ -62,7 +65,7 @@
         .catch(console.error);
     }
 
-    updateSection (obj: Section): void {
+    private updateSection (obj: Section): void {
       const sections = this.sections;
       const index = sections.findIndex(el => el._id === obj._id);
       const section = sections[index];
@@ -79,7 +82,7 @@
       this.$set(sections, index, section);
     }
 
-    created () {
+    public created () {
       const root = this.$root;
 
       this.getData();

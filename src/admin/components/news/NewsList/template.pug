@@ -1,0 +1,39 @@
+section#content
+  .news-list
+    .news-list__head
+      span.md-title News
+      md-button.md-icon-button.md-fab.md-mini.add-btn(href='#/news/create')
+        md-icon add
+        md-tooltip(md-delay='500') Add news
+      filter-box.news-list__head__filter-box(:options='columns', @querychange='$val => filterQuery = $val', @filterchange='$val => filter = $val')
+    md-whiteframe.news-list__table(md-elevation='2', md-tag='table')
+      thead
+        tr
+          th(v-for='(value, key) in columns', :key='key', :class="[value, { 'sorted': sort === value }]", @click='setSort(value)')
+            md-icon.md-18
+              | {{ reversed ? 'arrow_downward' : 'arrow_upward' }}
+            |               {{ key }}
+            md-tooltip(md-delay='500') Sort
+          th.actions(colspan='2')
+      tbody
+        tr(v-for='item in filteredNews')
+          td._id {{ item._id.slice(-3) }}
+          td.pubdate
+            router-link(:to='{ path: `news/${item._id}` }')
+              | {{ item.pubdate }}
+          td.updated
+            router-link(:to='{ path: `news/${item._id}` }')
+              | {{ item.updated || 'None' }}
+          td.title
+            router-link(:to='{ path: `news/${item._id}` }')
+              | {{ item.title }}
+          td.actions
+            md-button.md-icon-button.md-dense.edit-btn(:href='`#/news/${item._id}/edit`')
+              md-icon edit
+              md-tooltip(md-delay='500') Edit
+          td.actions
+            md-button.md-icon-button.md-dense.del-btn(@click.native='deleteNews(item._id)')
+              md-icon delete_forever
+              md-tooltip(md-delay='500') Delete
+  prompt(ref='prompt', :callback='promptCallback', text='Are you sure to delete this news?')
+    loader.news-list__loader(v-show='loading')

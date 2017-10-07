@@ -1,7 +1,7 @@
 import { RouteConfig } from 'vue-router';
 
-import NewsList from 'Admin/components/news/news-list.vue';
-import NewsItem from 'Admin/components/news/news-item.vue';
+import NewsList from 'Admin/components/news/NewsList/index.vue';
+import NewsItem from 'Admin/components/news/NewsItem/index.vue';
 import NewsItemEdit from 'Admin/components/news/news-item-editor.vue';
 
 const newsRoutes: RouteConfig[] = [

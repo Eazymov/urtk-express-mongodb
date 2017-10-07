@@ -7,8 +7,7 @@ exports.homepage = (req, res) => {
     .select('-_id stage panelText')
     .exec((err, homepage) => {
       if (err) {
-        res.json({ err })
-        return;
+        return res.json({ err })
       }
 
       res.json({ homepage });
@@ -20,8 +19,7 @@ exports.updateHomepage = (req, res) => {
 
   Homepage.findOneAndUpdate({}, updates, (err) => {
     if (err) {
-      res.json({ err });
-      return;
+      return res.json({ err });
     }
 
     res.json({ success: true });

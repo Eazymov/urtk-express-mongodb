@@ -6,16 +6,16 @@
 
     file-box(ref="fileBox")
 
-    menu-sidebar(@fileBoxBtnClick="showFileBox")
+    menu-sidebar
 
-    router-view(@fileBoxBtnClick="showFileBox")
+    router-view
 </template>
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
 
-  import FileBox from 'Admin/components/FileBoxComponent/index.vue';
-  import MenuSidebar from 'Admin/components/SidebarComponent/index.vue';
+  import FileBox from 'Admin/components/FileBox/index.vue';
+  import MenuSidebar from 'Admin/components/Sidebar/index.vue';
 
   @Component({
     components: {
@@ -24,28 +24,14 @@
     }
   })
 
-  class App extends Vue {
-    public warningText: string = 'Предупреждение';
-
-    /* get fileBox () {
-      return this.$refs.fileBox.$children[0];
-    }
-
-    get warning () {
-      return this.$refs.warningBox.firstChild.$children[0];
-    } */
-
-    showFileBox (): void {
-      // this.fileBox.open()
-    }
-  }
+  class App extends Vue { }
 
   export default App;
 </script>
 
 <style lang="sass">
   @import '~@/default.sass'
-
+  
   #App
     padding: 0 calc(50vw - 650px)
     background-color: #eee

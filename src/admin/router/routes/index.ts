@@ -1,8 +1,8 @@
 import { RouteConfig } from 'vue-router';
 
-import Mainpage from 'Admin/components/MainpageComponent/index.vue';
-import Homepage from 'Admin/components/HomepageComponent/index.vue';
-import Sponsors from 'Admin/components/SponsorsComponent/index.vue';
+import Mainpage from 'Admin/components/Mainpage/index.vue';
+import Homepage from 'Admin/components/Homepage/index.vue';
+import Sponsors from 'Admin/components/Sponsors/index.vue';
 
 import newsRoutes from './news';
 import sectionsRoutes from './sections';

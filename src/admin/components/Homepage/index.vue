@@ -25,25 +25,25 @@
       return this.$refs.panelTextEdit;
     }
 
-    getData (): void {
+    private getData (): void {
       Api.Homepage
         .get()
         .then(this.handleDataLoad)
         .catch(console.error);
     }
 
-    handleDataLoad (homepage: Homepage): void {
+    private handleDataLoad (homepage: Homepage): void {
       const { stage, panelText } = homepage;
 
       this.stage = stage;
       this.panelText = panelText;
     }
 
-    clearHTML (html: string): string {
+    private clearHTML (html: string): string {
       return html.trim().replace(tagRegex, '');
     }
 
-    sendData (): void {
+    public sendData (): void {
       const stage: string = this.stage;
       const panelText: string = (<any>this.panelTextEdit).innerHTML;
 
@@ -67,13 +67,13 @@
         .catch(this.handleUpdateReject);
     }
 
-    handleUpdate (): void {
+    private handleUpdate (): void {
       this.loading = false;
 
       this.notify('Data has been successfully updated');
     }
 
-    handleUpdateReject (err: Error): void {
+    private handleUpdateReject (err: Error): void {
       const errText = err.message;
 
       console.error(errText)
@@ -83,11 +83,11 @@
       this.showWarning(errText);
     }
 
-    created () {
+    public created () {
       this.getData();
     }
 
-    mounted () {
+    public mounted () {
       setTimeout(() => {
         const input = this.$el.querySelector('input');
 

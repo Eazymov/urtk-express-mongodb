@@ -1,11 +1,13 @@
 import Homepage from './homepage';
-import Section from './section';
 import Sponsor from './sponsor';
+import News from './news';
+import Section from './section';
 
 const Api: { [key: string]: any } = {
   Homepage,
-  Section,
   Sponsor,
+  News,
+  Section,
 };
 
 export default Api;

@@ -14,14 +14,14 @@
   class NotifyBox extends Vue {
     public text: string = 'Success';
 
-    show (event: CustomEvent) {
+    private show (event: CustomEvent) {
       const snackbar = this.$refs.snackbar;
       this.text = event.detail;
 
       (<any>snackbar).open();
     }
 
-    mounted () {
+    public mounted () {
       document.addEventListener(NOTIFICATION, this.show);
     }
   }

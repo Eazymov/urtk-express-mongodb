@@ -1,18 +1,13 @@
 import { AxiosPromise } from 'axios';
 
 import instance from './instance';
-import { handleApiError } from 'Utils/errorHandlers';
 
 export default {
-  get (): AxiosPromise {
+  get (): Promise<Section[]> {
     return instance
       .get('/sections')
       .then(({ data }) => {
-        const { sections, err } = data;
-
-        if (err) {
-          handleApiError(err);
-        }
+        const sections: Section[] = data.sections;
 
         return sections;
       });

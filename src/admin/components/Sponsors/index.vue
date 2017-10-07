@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import Axios from 'axios';
+  import { Action } from 'vuex-class';
 
   import Api from 'Api';
 
@@ -12,47 +12,51 @@
     public loading: boolean = true;
     public promptCallback: () => void = () => {};
 
-    getData (): void {
+    @Action public notify: (text: string) => void;
+    @Action public openFileBox: () => void;
+
+    private getData (): void {
       Api.Sponsor
         .get()
         .then(this.handleDataLoad)
         .catch(console.error);
     }
 
-    handleDataLoad (sponsors: Sponsor[]): void {
+    private handleDataLoad (sponsors: Sponsor[]): void {
       this.loading = false;
 
       this.sponsors = sponsors;
     }
 
-    addSponsor (obj: Sponsor): void {
+    private addSponsor (obj: Sponsor): void {
       this.sponsors.push(obj);
     }
 
-    deleteSponsor (logo: string): void {
+    public deleteSponsor (logo: string): void {
       this.promptCallback = () => {
         const sponsors: Sponsor[] = this.sponsors;
         const index: number = sponsors.findIndex((el: Sponsor) => {
           return el.logo === logo;
         });
 
-        if (!index) return;
+        if (index === undefined) return;
 
         sponsors.splice(index, 1);
 
-        Axios
-          .post('/api/sponsors/delete', { logo })
+        Api.Sponsor
+          .delete(logo)
+          .then(() => this.notify('Deleted'))
           .catch(console.error);
       }
 
       (<any>this.$refs.prompt).$children[0].open()
     }
 
-    beforeDestroy (): void {
+    public beforeDestroy (): void {
       this.$root.$off('sponsor-add', this.addSponsor);
     }
 
-    created (): void {
+    public created (): void {
       this.getData();
 
       this.$root.$on('sponsor-add', this.addSponsor);

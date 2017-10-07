@@ -7,15 +7,11 @@ const fileStorage = require('../handlers/fileStorage.js')
 const upload = fileStorage.single('logo')
 
 exports.sponsors = (req, res) => {
-  const { select = '' } = req.query;
-  
   Sponsor
     .find()
-    .select(select)
     .exec((err, sponsors) => {
       if (err) {
-        res.json({ err })
-        return;
+        return res.json({ err })
       }
 
       res.json({ sponsors });
@@ -23,23 +19,19 @@ exports.sponsors = (req, res) => {
 }
 
 exports.createSponsor = (req, res) => {
-  upload(req, res, err => {
+  upload(req, res, (err) => {
     if (err) {
-      res.json({ err });
-      return;
+      return res.json({ err });
     }
 
     const { title, link } = req.body;
     const logo = req.file.originalname;
-
     const result = { title, link, logo }
-
     const newSponsor = new Sponsor(result)
 
     newSponsor.save((err, sponsor) => {
       if (err) {
-        res.json({ err });
-        return;
+        return res.json({ err });
       }
 
       res.json({ sponsor })
@@ -53,21 +45,19 @@ exports.deleteSponsor = (req, res) => {
   Sponsor
     .findOne({ logo })
     .remove()
-    .exec(err => {
+    .exec((err) => {
       if (err) {
-        res.json({ err });
-        return;
+        return res.json({ err });
       }
 
       const filepath = path.resolve(__dirname, `../public/uploads/${logo}`)
 
-      fs.unlink(filepath, err => {
+      fs.unlink(filepath, (err) => {
         if (err) {
-          res.json({ err });
-          return;
+          return res.json({ err });
         }
-      });
 
-      res.end();
+        res.json({ success: true });
+      });
     })
 }

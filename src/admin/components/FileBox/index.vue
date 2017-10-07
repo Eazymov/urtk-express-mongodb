@@ -32,9 +32,12 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import Axios, { AxiosResponse } from 'axios';
+  import { Action } from 'vuex-class';
+  import Api from 'Api';
 
-  import { checkLink, checkFile } from './utils';
+  import { prepareLink, checkImage } from 'Utils/workWithFiles';
+  import { SHOW_FILE_BOX } from 'Admin/constants/customEvents';
+  import { MAX_IMG_RES } from 'Admin/constants/config';
 
   @Component
   class FileBoxComponent extends Vue {
@@ -43,11 +46,20 @@
     public link: string = '';
     public filename: string = '';
 
-    get file() {
-      return (<any>this.$refs.file).$el.children[2];
+    @Action private notify: (text: string) => void;
+    @Action private showWarning: (text: string) => void;
+
+    get file(): HTMLInputElement {
+      return (<any>this).$el.querySelector('[type="file"]');
+    }
+    
+    private open (): void {
+      const fileBox = this.$refs.fileBox;
+
+      (<any>fileBox).open();
     }
 
-    clear (): void {
+    private clear (): void {
       const inputs: NodeList = this.$el.querySelectorAll('input');
       const inputsArray: Array<Node> = Array.from(inputs);
 
@@ -62,15 +74,16 @@
       });
     }
 
-    close (): void {
+    private close (): void {
+      this.clear();
       (<any>this.$refs.fileBox).close();
     }
 
-    handleSubmit (): void {
+    public async handleSubmit () {
       const data: FormData = new FormData();
       const title: string = this.title;
-      const logo: Blob = this.file.files[0];
-      const link: string = checkLink(this.link);
+      const link: string = prepareLink(this.link);
+      const [logo] = (<any>this).file.files;
 
       this.loading = true;
 
@@ -78,58 +91,35 @@
       data.append('link', link);
       data.append('logo', logo);
 
-      checkFile (logo)
-        .then(this.sendData(data))
-        .catch(err => {
-          const errText: string = 'The file exceeds the allowed size';
+      const fileIsValid: boolean = await checkImage(logo, MAX_IMG_RES);
 
-          this.$emit('warning', errText);
-          this.loading = false;
-        });
-    }
-
-    sendData (data: object): () => void {
-      return () => {
-        Axios
-          .post('/api/sponsors/create', data)
-          .then(this.handleAjaxLoad)
-          .catch(this.handleAjaxError)
+      if (!fileIsValid) {
+        this.showWarning('Image exceeds the maximum allowed resolution');
+        this.loading = false;
       }
+
+      Api.Sponsor
+        .add(data)
+        .then(this.handleAjaxLoad)
+        .catch(this.handleAjaxError);
     }
 
-    handleAjaxLoad (response: AxiosResponse): void {
+    private handleAjaxLoad (sponsor: Sponsor): void {
       this.loading = false;
 
-      const { data } = response;
-      const { sponsor, err } = data;
-
-      if (err) {
-        throw err;
-      }
-
-      this.$emit('notify', 'Data has been successfully saved');
-      this.close()
+      this.notify('Data has been successfully saved');
+      this.close();
 
       this.$root.$emit('sponsor-add', sponsor);
-      this.clear();
     }
 
-    handleAjaxError (err: Error): void {
-      const errText: string = err.message;
-
-      console.error(errText);
-
+    private handleAjaxError (err: Error): void {
       this.loading = false;
-
-      this.$emit('warning', errText);
+      this.showWarning(err.message);
     }
 
-    mounted () {
-      const readOnlyInputs = this.$el.querySelector('[readonly]');
-
-      if (!readOnlyInputs) return;
-
-      readOnlyInputs.removeAttribute('readonly');
+    public mounted () {
+      document.addEventListener(SHOW_FILE_BOX, this.open);
     }
   }
 

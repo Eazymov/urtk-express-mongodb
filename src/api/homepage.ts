@@ -1,35 +1,18 @@
-import { AxiosPromise } from 'axios';
-
 import instance from './instance';
-import { handleApiError } from 'Utils/errorHandlers';
 
 export default {
-  get (): AxiosPromise {
+  get (): Promise<Homepage> {
     return instance.get('/homepage')
       .then(({ data }) => {
-        const { homepage, err } = data;
-
-        if (err) {
-          handleApiError(err);
-        }
+        const homepage: Homepage = data.homepage;
 
         return homepage;
       });
   },
 
-  update (updates: Homepage): AxiosPromise {
+  update (updates: Homepage): Promise<boolean> {
     return instance
       .post('/homepage/update', updates)
-      .then(({ data }) => {
-        const { success, err } = data;
-
-        if (err) {
-          handleApiError(err);
-        } else if (!success) {
-          handleApiError(new Error('Error while saving data'));
-        }
-
-        return success;
-      });
+      .then(() => true);
   }
 };

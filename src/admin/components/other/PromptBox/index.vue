@@ -10,6 +10,8 @@
 <script lang="ts">
   import { Vue, Component, Prop } from 'vue-property-decorator';
 
+  type Answer = 'ok' | 'cancel';
+
   @Component({
     props: {
       text: {
@@ -36,7 +38,7 @@
     })
     public callback: () => void;
 
-    public onClose (answer: 'ok' | 'cancel'): void {
+    public onClose (answer: Answer): void {
       if (answer !== 'ok') return;
 
       if (typeof this.callback === 'function')

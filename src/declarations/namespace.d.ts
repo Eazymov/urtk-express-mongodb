@@ -46,3 +46,7 @@ declare interface User {
 declare interface ApiResponse {
   data: any;
 }
+
+declare interface ApiError extends Error {
+  errmsg: string;
+}

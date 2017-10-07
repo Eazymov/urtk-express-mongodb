@@ -1,4 +1,13 @@
-const Editor = {
+interface Command {
+  name: string;
+  action: () => void;
+}
+
+interface SimpleEditor {
+  commands: Command[];
+}
+
+const Editor: SimpleEditor = {
   commands: [
     {
       name: 'removeFormat',

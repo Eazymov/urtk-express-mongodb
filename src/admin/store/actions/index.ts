@@ -1,19 +1,27 @@
 import CustomEvents from 'Utils/customEvents';
 
-import { NOTIFICATION, WARNING } from 'Admin/constants/customEvents';
+import {
+  NOTIFICATION,
+  WARNING,
+  SHOW_FILE_BOX
+} from 'Admin/constants/customEvents';
 
 const actions = {
-  notify (store: any, text: string) {
+  notify (state: any, text: string): void {
     CustomEvents.emit(NOTIFICATION, {
       detail: text,
     });
   },
 
-  showWarning (store: any, text: string) {
+  showWarning (state: any, text: string): void {
     CustomEvents.emit(WARNING, {
       detail: text,
     });
   },
+
+  openFileBox (): void {
+    CustomEvents.emit(SHOW_FILE_BOX);
+  }
 };
 
 export default actions;

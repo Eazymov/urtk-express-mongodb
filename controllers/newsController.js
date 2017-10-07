@@ -2,64 +2,54 @@ const mongoose = require('mongoose')
 const News = mongoose.model('News')
 
 exports.newsList = (req, res) => {
-  const { select = '' } = req.query;
-
   News
     .find()
-    .select(select)
     .exec((err, news) => {
       if (err) {
-        res.send({ err })
-        return;
+        return res.json({ err })
       }
 
-      res.send(news)
+      res.json({ news })
     })
 }
 
 exports.newsItem = (req, res) => {
   const _id = req.params.id;
-  const { select = '' } = req.query;
 
   News
     .findById({ _id })
-    .select(select)
-    .exec((err, news) => {
+    .exec((err, newsItem) => {
       if (err) {
-        res.send({ err })
-        return;
+        return res.json({ err })
       }
 
-      res.send(news)
+      res.json({ newsItem })
     })
 }
 
 exports.createNews = (req, res) => {
   const { title, content } = req.body.data;
-
   const newNews = News({title, content});
 
   newNews.save((err, news) => {
     if (err) {
-      res.send({ err });
-      return;
+      return res.json({ err });
     }
 
     const _id = news._id;
 
-    res.send({ _id });
+    res.json({ _id });
   })
 }
 
 exports.updateNews = (req, res) => {
   const { id, data } = req.body;
-  console.log()
+
   News
     .findByIdAndUpdate(id, data)
     .exec((err, news) => {
       if (err) {
-        res.send({ err });
-        return;
+        return res.json({ err });
       }
 
       res.end();
@@ -69,10 +59,9 @@ exports.updateNews = (req, res) => {
 exports.deleteNews = (req, res) => {
   const { _id } = req.body;
 
-  News.findByIdAndRemove(_id, err => {
+  News.findByIdAndRemove(_id, (err) => {
     if (err) {
-      res.send({ err });
-      return;
+      return res.json({ err });
     }
 
     res.end();

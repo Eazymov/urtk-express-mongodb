@@ -14,14 +14,17 @@
   class WarningBox extends Vue {
     public text: string = 'Warning';
 
-    show (event: CustomEvent) {
+    private show (event: CustomEvent) {
+      const errText: string = event.detail;
       const warning = this.$refs.warning;
-      this.text = event.detail;
+      this.text = errText;
+
+      console.error(errText);
 
       (<any>warning).open();
     }
     
-    mounted () {
+    public mounted () {
       document.addEventListener(WARNING, this.show);
     }
   }

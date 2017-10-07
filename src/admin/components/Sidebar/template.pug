@@ -16,7 +16,7 @@ md-whiteframe(tag="section" md-elevation="6" id='menu-sidebar')
       router-link(to='/sponsors' class="menu-list__item__link")
         md-ink-ripple
         span Sponsors
-      a(class='add-btn' @click="$emit('fileBoxBtnClick')")
+      a(class='add-btn' @click="openFileBox")
         md-icon playlist_add
         md-tooltip(md-delay="500") Add sponsor
     li.menu-list__item
