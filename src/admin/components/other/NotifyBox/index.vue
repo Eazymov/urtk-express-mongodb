@@ -1,28 +1,30 @@
 <template lang="pug">
   md-snackbar(md-position="bottom right"
-              ref="snackbar"
-              :md-duration="4000")
-    span {{ text }}
+              ref="notifyBox"
+              :md-duration="notificationTime")
+    span {{ notificationText }}
 </template>
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-
-  import { NOTIFICATION } from 'Admin/constants/customEvents';
+  import { State, Action, namespace } from 'vuex-class';
+  
+  const notificationState = namespace('notification', State);
+  const notificationAction = namespace('notification', Action);
 
   @Component
   class NotifyBox extends Vue {
-    public text: string = 'Success';
+    @notificationState public notificationText: string;
+    @notificationState public notificationTime: number;
 
-    private show (event: CustomEvent) {
-      const snackbar = this.$refs.snackbar;
-      this.text = event.detail;
+    @notificationAction private setNotifyBox: (notifyBox: any) => void;
 
-      (<any>snackbar).open();
-    }
+    public mounted (): void {
+      const notifyBox = this.$refs.notifyBox;
 
-    public mounted () {
-      document.addEventListener(NOTIFICATION, this.show);
+      if (notifyBox) {
+        this.setNotifyBox(notifyBox);
+      }
     }
   }
 

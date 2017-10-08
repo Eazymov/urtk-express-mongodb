@@ -24,7 +24,7 @@
 
     @Action private notify: (text: string) => void;
 
-    public get filteredNews () {
+    public get filteredNews (): News[] {
       const filter: string = this.filter;
       const query: string = this.filterQuery.toLowerCase();
       const news: News[] = this.sortedNews;
@@ -51,27 +51,27 @@
       })
     }
 
-    private getData () {
+    private getData (): void {
       Api.News
         .get()
         .then(this.handleDataLoad)
         .catch(console.error)
     }
 
-    private handleDataLoad (news: News[]) {
+    private handleDataLoad (news: News[]): void {
       this.loading = false;
 
       this.news = news;
     }
 
-    public setSort (sort: string) {
+    public setSort (sort: string): void {
       const reversed: boolean = this.reversed;
 
       this.reversed = (this.sort === sort) ? !reversed : reversed;
       this.sort = sort;
     }
 
-    public deleteNews (_id: string) {
+    public deleteNews (_id: string): void {
       this.promptCallback = () => {
         const news: News[] = this.news;
         const index: number = news.findIndex(el => el._id === _id);
@@ -87,7 +87,7 @@
       (<any>this.$refs.prompt).$children[0].open()
     }
 
-    public created() {
+    public created (): void {
       this.getData();
     }
   }

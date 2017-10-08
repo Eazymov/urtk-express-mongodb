@@ -2,12 +2,13 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import { Action } from 'vuex-class';
+  import { Action, namespace } from 'vuex-class';
   import Api from 'Api';
 
   import Editor from './simpleEditor';
 
   const tagRegex = /(<[^>]*>)|(&nbsp;)|( )/gi
+  const notificationAction = namespace('notification', Action);
 
   @Component
   class HomePage extends Vue {
@@ -18,7 +19,7 @@
     public panelTextIsValid: boolean = true;
     public Editor: {} = Editor;
 
-    @Action notify: (text: string) => void;
+    @notificationAction showNotification: (params: NotifyParams) => void;
     @Action showWarning: (text: string) => void;
 
     public get panelTextEdit () {
@@ -70,7 +71,9 @@
     private handleUpdate (): void {
       this.loading = false;
 
-      this.notify('Data has been successfully updated');
+      this.showNotification({
+        text: 'Data has been successfully updated',
+      });
     }
 
     private handleUpdateReject (err: Error): void {
@@ -83,11 +86,11 @@
       this.showWarning(errText);
     }
 
-    public created () {
+    public created (): void {
       this.getData();
     }
 
-    public mounted () {
+    public mounted (): void {
       setTimeout(() => {
         const input = this.$el.querySelector('input');
 

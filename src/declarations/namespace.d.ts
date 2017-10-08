@@ -1,3 +1,7 @@
+declare type State = {
+  [key: string]: any;
+}
+
 declare interface Article {
   _id: string;
   title: string;
@@ -49,4 +53,9 @@ declare interface ApiResponse {
 
 declare interface ApiError extends Error {
   errmsg: string;
+}
+
+declare interface NotifyParams {
+  text: string;
+  time?: number;
 }

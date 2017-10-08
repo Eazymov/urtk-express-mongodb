@@ -118,7 +118,7 @@
       this.showWarning(err.message);
     }
 
-    public mounted () {
+    public mounted (): void {
       document.addEventListener(SHOW_FILE_BOX, this.open);
     }
   }
