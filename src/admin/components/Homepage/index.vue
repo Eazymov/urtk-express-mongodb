@@ -2,13 +2,19 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import { Action, namespace } from 'vuex-class';
+  import { Action } from 'vuex-class';
   import Api from 'Api';
 
   import Editor from './simpleEditor';
+  import Observable from 'Utils/observable';
+  import { NOTIFY } from 'Admin/constants/actionTypes';
 
-  const tagRegex = /(<[^>]*>)|(&nbsp;)|( )/gi
-  const notificationAction = namespace('notification', Action);
+  const tagRegex = /(<[^>]*>)|(&nbsp;)|( )/gi;
+
+  function Bind (a: any, b: any) {
+    a.QWERTY = b;
+    console.log(arguments);
+  }
 
   @Component
   class HomePage extends Vue {
@@ -19,7 +25,7 @@
     public panelTextIsValid: boolean = true;
     public Editor: {} = Editor;
 
-    @notificationAction showNotification: (params: NotifyParams) => void;
+    @Bind test: any;
     @Action showWarning: (text: string) => void;
 
     public get panelTextEdit () {
@@ -71,7 +77,7 @@
     private handleUpdate (): void {
       this.loading = false;
 
-      this.showNotification({
+      Observable.fire(NOTIFY, {
         text: 'Data has been successfully updated',
       });
     }
@@ -97,6 +103,7 @@
         if (input)
           input.focus();
       }, 300);
+      console.log((<any>this).QWERTY);
     }
   }
 

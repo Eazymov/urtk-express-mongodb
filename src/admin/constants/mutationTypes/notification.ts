@@ -1,3 +1,0 @@
-export const SET_NOTIFY_TEXT = 'SET_NOTIFY_TEXT';
-export const SET_NOTIFY_BOX = 'SET_NOTIFY_BOX';
-export const SET_NOTIFY_TIME = 'SET_NOTIFY_TIME';

@@ -8,13 +8,14 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
 
-  import { WARNING } from 'Admin/constants/customEvents';
+  import Observable from 'Utils/observable';
+  import { WARNING } from 'Admin/constants/actionTypes';
 
   @Component
   class WarningBox extends Vue {
     public text: string = 'Warning';
 
-    private show (event: CustomEvent) {
+    private show (event: CustomEvent): void {
       const errText: string = event.detail;
       const warning = this.$refs.warning;
       this.text = errText;
@@ -25,7 +26,7 @@
     }
     
     public mounted () {
-      document.addEventListener(WARNING, this.show);
+      Observable.subscribe(WARNING, this.show);
     }
   }
 

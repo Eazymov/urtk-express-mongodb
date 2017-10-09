@@ -5,6 +5,8 @@
   import { Action } from 'vuex-class';
 
   import Api from 'Api';
+  import Observable from 'Utils/observable';
+  import { NOTIFY } from 'Admin/constants/actionTypes';
 
   @Component
   class Sponsors extends Vue {
@@ -12,7 +14,7 @@
     public loading: boolean = true;
     public promptCallback: () => void = () => {};
 
-    @Action public notify: (text: string) => void;
+    public notify: (text: string) => void = (text: string) => Observable.fire(NOTIFY, { text });
     @Action public openFileBox: () => void;
 
     private getData (): void {

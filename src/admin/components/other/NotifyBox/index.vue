@@ -1,30 +1,40 @@
 <template lang="pug">
   md-snackbar(md-position="bottom right"
               ref="notifyBox"
-              :md-duration="notificationTime")
-    span {{ notificationText }}
+              :md-duration="time")
+    span {{ text }}
 </template>
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import { State, Action, namespace } from 'vuex-class';
-  
-  const notificationState = namespace('notification', State);
-  const notificationAction = namespace('notification', Action);
+
+  import Observable from 'Utils/observable';
+  import { NOTIFY } from 'Admin/constants/actionTypes';
+
+  interface Params {
+    text: string;
+    time?: number;
+  }
 
   @Component
   class NotifyBox extends Vue {
-    @notificationState public notificationText: string;
-    @notificationState public notificationTime: number;
+    public text: string = '';
+    public time: number = 3000;
 
-    @notificationAction private setNotifyBox: (notifyBox: any) => void;
+    private async show (params: Params) {
+      const notifyBox = this.$refs.notifyBox;
+      const { text, time } = params;
+      this.text = text;
+
+      if (time) {
+        await (this.time = time);
+      }
+      
+      (<any>notifyBox).open();
+    }
 
     public mounted (): void {
-      const notifyBox = this.$refs.notifyBox;
-
-      if (notifyBox) {
-        this.setNotifyBox(notifyBox);
-      }
+      Observable.subscribe(NOTIFY, this.show);
     }
   }
 
