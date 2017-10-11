@@ -6,15 +6,10 @@
   import Api from 'Api';
 
   import Editor from './simpleEditor';
-  import Observable from 'Utils/observable';
+  import { Bind } from 'Utils/observable';
   import { NOTIFY } from 'Admin/constants/actionTypes';
 
   const tagRegex = /(<[^>]*>)|(&nbsp;)|( )/gi;
-
-  function Bind (a: any, b: any) {
-    a.QWERTY = b;
-    console.log(arguments);
-  }
 
   @Component
   class HomePage extends Vue {
@@ -25,7 +20,7 @@
     public panelTextIsValid: boolean = true;
     public Editor: {} = Editor;
 
-    @Bind test: any;
+    @Bind(NOTIFY) notify: any;
     @Action showWarning: (text: string) => void;
 
     public get panelTextEdit () {
@@ -77,7 +72,7 @@
     private handleUpdate (): void {
       this.loading = false;
 
-      Observable.fire(NOTIFY, {
+      this.notify({
         text: 'Data has been successfully updated',
       });
     }
@@ -85,10 +80,7 @@
     private handleUpdateReject (err: Error): void {
       const errText = err.message;
 
-      console.error(errText)
-
       this.loading = false;
-
       this.showWarning(errText);
     }
 
@@ -103,7 +95,6 @@
         if (input)
           input.focus();
       }, 300);
-      console.log((<any>this).QWERTY);
     }
   }
 

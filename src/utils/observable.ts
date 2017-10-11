@@ -8,14 +8,34 @@ interface Observers {
   [key: string]: Observer[];
 }
 
-interface ObservableInstance {
+interface Observable {
   observers: Observers;
   subscribe: Subscribe;
   unsubscribe: Unsubscribe;
   fire: Fire;
 }
 
-const Observable: ObservableInstance = {
+function bindActionToConstructor (constructor: any, action: string, fnName: string) {
+  if (!constructor.__decorators__) {
+    constructor.__decorators__ = [];
+  }
+
+  constructor.__decorators__.push(function (component: any) {
+    component.methods[fnName] = Store.fire.bind(Store, action);
+  });
+}
+
+function Bind (a: any, b?: string): any {
+  if (b) {
+    bindActionToConstructor(a.constructor, b, b);
+  } else {
+    return function(target: any, fnName: string) {
+      bindActionToConstructor(target.constructor, a, fnName);
+    }
+  }
+}
+
+const Store: Observable = {
   observers: {},
 
   subscribe (eventName: string, ...observers: Observer[]): boolean {
@@ -61,4 +81,8 @@ const Observable: ObservableInstance = {
   }
 };
 
-export default Observable;
+export {
+  Bind,
+};
+
+export default Store;

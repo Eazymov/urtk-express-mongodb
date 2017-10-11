@@ -30,7 +30,11 @@
         await (this.time = time);
       }
       
-      (<any>notifyBox).open();
+      try {
+        (<any>notifyBox).open();
+      } catch (err) {
+        console.error(err.message);
+      }
     }
 
     public mounted (): void {
