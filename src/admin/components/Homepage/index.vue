@@ -2,12 +2,11 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import { Action } from 'vuex-class';
   import Api from 'Api';
 
   import Editor from './simpleEditor';
-  import { Bind } from 'Utils/observable';
-  import { NOTIFY } from 'Admin/constants/actionTypes';
+  import { Action } from 'Utils/observable';
+  import { NOTIFY, WARNING } from 'Admin/constants/actionTypes';
 
   const tagRegex = /(<[^>]*>)|(&nbsp;)|( )/gi;
 
@@ -20,8 +19,11 @@
     public panelTextIsValid: boolean = true;
     public Editor: {} = Editor;
 
-    @Bind(NOTIFY) notify: any;
-    @Action showWarning: (text: string) => void;
+    @Action(NOTIFY)
+    private notify: (params: { text: string }) => void;
+
+    @Action(WARNING)
+    private showWarning: (params: { text: string }) => void;
 
     public get panelTextEdit () {
       return this.$refs.panelTextEdit;
@@ -78,10 +80,10 @@
     }
 
     private handleUpdateReject (err: Error): void {
-      const errText = err.message;
-
       this.loading = false;
-      this.showWarning(errText);
+      this.showWarning({
+        text: err.message,
+      });
     }
 
     public created (): void {

@@ -25,7 +25,7 @@ function bindActionToConstructor (constructor: any, action: string, fnName: stri
   });
 }
 
-function Bind (a: any, b?: string): any {
+function Action (a: any, b?: string): any {
   if (b) {
     bindActionToConstructor(a.constructor, b, b);
   } else {
@@ -68,7 +68,7 @@ const Store: Observable = {
     return true;
   },
 
-  fire (eventName: string, params: any): boolean {
+  fire (eventName: string, params?: any): boolean {
     const eventObservers: Observer[] = this.observers[eventName];
 
     if (!eventObservers) return false;
@@ -82,7 +82,7 @@ const Store: Observable = {
 };
 
 export {
-  Bind,
+  Action,
 };
 
 export default Store;

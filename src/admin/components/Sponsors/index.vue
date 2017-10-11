@@ -2,11 +2,14 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import { Action } from 'vuex-class';
+  import { Action } from 'Utils/observable';
 
   import Api from 'Api';
-  import Observable from 'Utils/observable';
-  import { NOTIFY } from 'Admin/constants/actionTypes';
+  import {
+    NOTIFY,
+    WARNING,
+    OPEN_FILE_BOX,
+  } from 'Admin/constants/actionTypes';
 
   @Component
   class Sponsors extends Vue {
@@ -14,14 +17,22 @@
     public loading: boolean = true;
     public promptCallback: () => void = () => {};
 
-    public notify: (text: string) => void = (text: string) => Observable.fire(NOTIFY, { text });
-    @Action public openFileBox: () => void;
+    @Action(NOTIFY)
+    public notify: (params: { text: string }) => void;
+
+    @Action(WARNING)
+    public showWarning: (params: { text: string }) => void;
+
+    @Action(OPEN_FILE_BOX)
+    public openFileBox: () => void;
 
     private getData (): void {
       Api.Sponsor
         .get()
         .then(this.handleDataLoad)
-        .catch(console.error);
+        .catch((err: Error) => this.showWarning({
+          text: err.message,
+        }));
     }
 
     private handleDataLoad (sponsors: Sponsor[]): void {
@@ -47,8 +58,12 @@
 
         Api.Sponsor
           .delete(logo)
-          .then(() => this.notify('Deleted'))
-          .catch(console.error);
+          .then(() => this.notify({
+            text: 'Deleted',
+          }))
+          .catch((err: Error) => this.showWarning({
+            text: err.message,
+          }));
       }
 
       (<any>this.$refs.prompt).$children[0].open()

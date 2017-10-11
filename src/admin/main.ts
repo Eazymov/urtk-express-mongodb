@@ -1,7 +1,6 @@
 import 'webpack-hot-middleware/client';
 
 import Vue from 'vue';
-import store from 'Admin/store';
 import router from 'Admin/router';
 
 import App from './App/index.vue';
@@ -31,7 +30,6 @@ Vue.component('warning-box', WarningBox);
 
 new Vue({
   el: '#App',
-  store,
   router,
   render: f => f(App),
   created () {

@@ -11,16 +11,20 @@
   import Observable from 'Utils/observable';
   import { WARNING } from 'Admin/constants/actionTypes';
 
+  interface Params {
+    text: string;
+  }
+
   @Component
   class WarningBox extends Vue {
     public text: string = 'Warning';
 
-    private show (event: CustomEvent): void {
-      const errText: string = event.detail;
+    private show (params: Params): void {
       const warning = this.$refs.warning;
-      this.text = errText;
+      const text: string = params.text;
+      this.text = text;
 
-      console.error(errText);
+      console.error(text);
 
       (<any>warning).open();
     }

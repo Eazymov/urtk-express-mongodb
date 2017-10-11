@@ -32,11 +32,17 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import { Action } from 'vuex-class';
+  import { Action } from 'Utils/observable';
   import Api from 'Api';
 
+  import Observable from 'Utils/observable';
+
   import { prepareLink, checkImage } from 'Utils/workWithFiles';
-  import { SHOW_FILE_BOX } from 'Admin/constants/customEvents';
+  import {
+    NOTIFY,
+    WARNING,
+    OPEN_FILE_BOX,
+  } from 'Admin/constants/actionTypes';
   import { MAX_IMG_RES } from 'Admin/constants/config';
 
   @Component
@@ -46,14 +52,17 @@
     public link: string = '';
     public filename: string = '';
 
-    @Action private notify: (text: string) => void;
-    @Action private showWarning: (text: string) => void;
+    @Action(NOTIFY)
+    private notify: (params: { text: string }) => void;
+
+    @Action(WARNING)
+    private showWarning: (params: { text: string }) => void;
 
     get file(): HTMLInputElement {
       return (<any>this).$el.querySelector('[type="file"]');
     }
     
-    private open (): void {
+    private show (): void {
       const fileBox = this.$refs.fileBox;
 
       (<any>fileBox).open();
@@ -94,7 +103,9 @@
       const fileIsValid: boolean = await checkImage(logo, MAX_IMG_RES);
 
       if (!fileIsValid) {
-        this.showWarning('Image exceeds the maximum allowed resolution');
+        this.showWarning({
+          text: 'Image exceeds the maximum allowed resolution',
+        });
         this.loading = false;
       }
 
@@ -107,7 +118,9 @@
     private handleAjaxLoad (sponsor: Sponsor): void {
       this.loading = false;
 
-      this.notify('Data has been successfully saved');
+      this.notify({
+        text: 'Data has been successfully saved',
+      });
       this.close();
 
       this.$root.$emit('sponsor-add', sponsor);
@@ -115,11 +128,13 @@
 
     private handleAjaxError (err: Error): void {
       this.loading = false;
-      this.showWarning(err.message);
+      this.showWarning({
+        text: err.message,
+      });
     }
 
     public mounted (): void {
-      document.addEventListener(SHOW_FILE_BOX, this.open);
+      Observable.subscribe(OPEN_FILE_BOX, this.show);
     }
   }
 

@@ -2,15 +2,17 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import { Action } from 'vuex-class';
+  import { Action } from 'Utils/observable';
   import Api from 'Api';
+  import { OPEN_FILE_BOX } from 'Admin/constants/actionTypes';
 
   @Component
   class Sidebar extends Vue {
     public sections: Array<Section> = [];
     public promptCallback: () => void = () => {};
 
-    @Action public openFileBox: () => void;
+    @Action(OPEN_FILE_BOX)
+    public openFileBox: () => void;
 
     private getData (): void {
       Api.Section.get()
