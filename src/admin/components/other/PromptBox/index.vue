@@ -12,19 +12,7 @@
 
   type Answer = 'ok' | 'cancel';
 
-  @Component({
-    props: {
-      text: {
-        type: String,
-        required: true
-      },
-      callback: {
-        type: Function,
-        required: false
-      }
-    }
-  })
-
+  @Component
   class PromptBox extends Vue {
     @Prop({
       type: String,
@@ -41,8 +29,9 @@
     public onClose (answer: Answer): void {
       if (answer !== 'ok') return;
 
-      if (typeof this.callback === 'function')
-        this.callback()
+      if (typeof this.callback === 'function') {
+        this.callback();
+      }
     }
   }
 

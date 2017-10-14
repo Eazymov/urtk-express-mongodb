@@ -2,6 +2,7 @@ import 'webpack-hot-middleware/client';
 
 import Vue from 'vue';
 import router from 'Admin/router';
+import observable from 'Admin/store';
 
 import App from './App/index.vue';
 
@@ -28,10 +29,11 @@ Vue.component('prompt', Prompt);
 Vue.component('notify-box', NotifyBox);
 Vue.component('warning-box', WarningBox);
 
-new Vue({
+new (<any>Vue)({
   el: '#App',
   router,
-  render: f => f(App),
+  observable,
+  render: (f: (app: any) => void) => f(App),
   created () {
     (<any>this).tinyMceCfg = tinyMceCfg
   }

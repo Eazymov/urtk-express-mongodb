@@ -8,7 +8,7 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
 
-  import Observable from 'Utils/observable';
+  import { Subscribe } from 'Admin/store';
   import { WARNING } from 'Admin/constants/actionTypes';
 
   interface Params {
@@ -19,7 +19,8 @@
   class WarningBox extends Vue {
     public text: string = 'Warning';
 
-    private show (params: Params): void {
+    @Subscribe(WARNING)
+    public show (params: Params): void {
       const warning = this.$refs.warning;
       const text: string = params.text;
       this.text = text;
@@ -27,10 +28,6 @@
       console.error(text);
 
       (<any>warning).open();
-    }
-    
-    public mounted () {
-      Observable.subscribe(WARNING, this.show);
     }
   }
 

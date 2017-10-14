@@ -21,27 +21,19 @@
 </template>
 
 <script lang="ts">
-  import { Vue, Component, Watch } from 'vue-property-decorator';
+  import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 
-  @Component({
-    props: {
-      options: {
-        type: Object,
-        required: true
-      }
-    }
-  })
-
+  @Component
   class FilterBox extends Vue {
     public filter: string = 'title';
     public filterQuery: string = '';
     public active: boolean = false;
 
-    public resetFilter (): void {
-      this.filterQuery = '';
-
-      this.active = false;
-    }
+    @Prop({
+      type: Object,
+      required: true,
+    })
+    public options: { [key: string]: any };
 
     @Watch('filter')
     filterWatcher (value: string) {
@@ -51,6 +43,12 @@
     @Watch('filterQuery')
     filterQueryWatcher (value: string) {
       this.$emit('queryChange', value);
+    }
+
+    public resetFilter (): void {
+      this.filterQuery = '';
+
+      this.active = false;
     }
   }
 

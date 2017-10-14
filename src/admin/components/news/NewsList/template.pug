@@ -5,7 +5,7 @@ section#content
       md-button.md-icon-button.md-fab.md-mini.add-btn(href='#/news/create')
         md-icon add
         md-tooltip(md-delay='500') Add news
-      filter-box.news-list__head__filter-box(:options='columns', @querychange='$val => filterQuery = $val', @filterchange='$val => filter = $val')
+      filter-box.news-list__head__filter-box(:options='columns', @queryChange='$val => filterQuery = $val', @filterChange='$val => filter = $val')
     md-whiteframe.news-list__table(md-elevation='2', md-tag='table')
       thead
         tr

@@ -5,7 +5,7 @@
   import Api from 'Api';
 
   import Editor from './simpleEditor';
-  import { Action } from 'Utils/observable';
+  import { Action } from 'Admin/store';
   import { NOTIFY, WARNING } from 'Admin/constants/actionTypes';
 
   const tagRegex = /(<[^>]*>)|(&nbsp;)|( )/gi;

@@ -32,10 +32,8 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import { Action } from 'Utils/observable';
+  import { Action, Subscribe } from 'Admin/store';
   import Api from 'Api';
-
-  import Observable from 'Utils/observable';
 
   import { prepareLink, checkImage } from 'Utils/workWithFiles';
   import {
@@ -57,15 +55,16 @@
 
     @Action(WARNING)
     private showWarning: (params: { text: string }) => void;
-
-    get file(): HTMLInputElement {
-      return (<any>this).$el.querySelector('[type="file"]');
-    }
     
-    private show (): void {
+    @Subscribe(OPEN_FILE_BOX)
+    public show (): void {
       const fileBox = this.$refs.fileBox;
 
       (<any>fileBox).open();
+    }
+
+    get file(): HTMLInputElement {
+      return (<any>this).$el.querySelector('[type="file"]');
     }
 
     private clear (): void {
@@ -131,10 +130,6 @@
       this.showWarning({
         text: err.message,
       });
-    }
-
-    public mounted (): void {
-      Observable.subscribe(OPEN_FILE_BOX, this.show);
     }
   }
 

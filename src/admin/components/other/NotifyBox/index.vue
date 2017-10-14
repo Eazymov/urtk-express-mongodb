@@ -8,7 +8,7 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
 
-  import Observable from 'Utils/observable';
+  import { Subscribe } from 'Admin/store';
   import { NOTIFY } from 'Admin/constants/actionTypes';
 
   interface Params {
@@ -21,7 +21,8 @@
     public text: string = '';
     public time: number = 3000;
 
-    private async show (params: Params) {
+    @Subscribe(NOTIFY)
+    public async show (params: Params) {
       const notifyBox = this.$refs.notifyBox;
       const { text, time } = params;
       this.text = text;
@@ -35,10 +36,6 @@
       } catch (err) {
         console.error(err.message);
       }
-    }
-
-    public mounted (): void {
-      Observable.subscribe(NOTIFY, this.show);
     }
   }
 

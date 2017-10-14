@@ -4,7 +4,7 @@
 
     notify-box
 
-    file-box(ref="fileBox")
+    file-box
 
     menu-sidebar
 
@@ -23,7 +23,6 @@
       MenuSidebar
     }
   })
-
   class App extends Vue { }
 
   export default App;

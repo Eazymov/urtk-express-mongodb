@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import { Action } from 'Utils/observable';
+  import { Action } from 'Admin/store';
 
   import Api from 'Api';
   import {

@@ -20,7 +20,6 @@
       }
     }
   })
-
   class FloatSubmit extends Vue { }
 
   export default FloatSubmit;
